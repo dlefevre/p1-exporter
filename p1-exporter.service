@@ -5,8 +5,8 @@ After=network-online.target
 
 [Service]
 Type=simple
-User=root
-Group=root
+User=prometheus
+Group=prometheus
 ExecStart=/usr/local/bin/p1-exporter -listen=localhost:9929 -loglevel=info
 
 Restart=always
