@@ -3,7 +3,7 @@ all: clean build
 
 .PHONY: clean
 clean:
-	rm -f p1-eporter
+	rm -f p1-exporter
 
 .PHONY: build
 build: p1-exporter
