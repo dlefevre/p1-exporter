@@ -13,11 +13,13 @@ type MetricStore interface {
 	SetMetric(Metric)
 	GetMetric(string) (Metric, error)
 	Current() map[string]Metric
+	Initialized() bool
 }
 
 type MetricStoreImpl struct {
-	collector map[string]Metric
-	current   map[string]Metric
+	collector   map[string]Metric
+	current     map[string]Metric
+	initialized bool
 
 	// only used to lock access to current set of metrics
 	lock *sync.RWMutex
@@ -26,9 +28,10 @@ type MetricStoreImpl struct {
 // Construct a new MetricsStore
 func NewMetricStore() MetricStore {
 	return &MetricStoreImpl{
-		collector: make(map[string]Metric),
-		current:   make(map[string]Metric),
-		lock:      &sync.RWMutex{},
+		collector:   make(map[string]Metric),
+		current:     make(map[string]Metric),
+		initialized: false,
+		lock:        &sync.RWMutex{},
 	}
 }
 
@@ -41,6 +44,7 @@ func (store *MetricStoreImpl) Commit() {
 	store.lock.Lock()
 	defer store.lock.Unlock()
 	store.current = store.collector
+	store.initialized = true
 	log.Debugf("MetricStore: committed %d metrics", len(store.current))
 }
 
@@ -68,4 +72,9 @@ func (store *MetricStoreImpl) Current() map[string]Metric {
 	store.lock.RLock()
 	defer store.lock.RUnlock()
 	return store.current
+}
+
+// Returns true if at least one commit was executed
+func (store *MetricStoreImpl) Initialized() bool {
+	return store.initialized
 }

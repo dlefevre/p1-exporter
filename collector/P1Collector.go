@@ -81,8 +81,14 @@ func (collector *P1Collector) Collect(ch chan<- prometheus.Metric) {
 // Listen for incomming connections
 func (collector *P1Collector) Run() {
 	config := config.GetConfigService()
-
 	collector.validate()
+
+	for !collector.store.Initialized() {
+		log.Info("P1Collector: Waiting for first commit in the MetricStore...")
+		time.Sleep(time.Second)
+	}
+	log.Info("P1Collector: First commit in Metricstore detected. Continuing with Collector setup.")
+
 	registry := prometheus.NewRegistry()
 	registry.MustRegister(collector)
 	handler := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
