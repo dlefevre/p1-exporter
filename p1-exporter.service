@@ -1,0 +1,15 @@
+[Unit]
+Description=P1 Exporter Service
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=prometheus
+Group=prometheus
+ExecStart=/usr/local/bin/p1-exporter -listen=localhost:9929 -level=info
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
