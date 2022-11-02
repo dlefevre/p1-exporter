@@ -7,7 +7,7 @@ After=network-online.target
 Type=simple
 User=prometheus
 Group=prometheus
-ExecStart=/usr/local/bin/p1-exporter -listen=localhost:9929 -level=info
+ExecStart=/usr/local/bin/p1-exporter -listen=localhost:9929 -loglevel=info
 
 Restart=always
 
