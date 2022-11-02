@@ -3,14 +3,13 @@
 ## Command line arguments
 
 `-listen=<host>:<port>` Set the listen host/port. Default: `:9929`.
+
 `-device=<device>` Specify the device associated to the RS232R device. Default: `/dev/ttyUSB0`.
+
 `-baud=<baud rate>` Baud rate. Default: `115200`.
+
 `-loglevel=<level>` Set the expected log level (error, warn, info, debug, trace). Default: `warn`.
 
-const defaultListenAddress = ":9929"       // --listen=
-const defaultSerialDevice = "/dev/ttyUSB0" // --device=
-const defaultSerialBaud = 115200           // --baud=
-const defaultLogLevel = "warn"             // --loglevel=
 
 ## OBIS Codes
 List of OBIS code that are used by the Belgian (Fluvius) digital meters
